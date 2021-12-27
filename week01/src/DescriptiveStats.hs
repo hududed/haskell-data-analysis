@@ -67,3 +67,15 @@ mode list = Just $ maximumBy (comparing snd) pairs
  where
      sorted = sort list
      pairs = countPairs sorted
+
+movingSum :: [Double] -> [Double] -> [Double]
+movingSum xs [] = [sum xs]
+movingSum (x:xs) (y:ys) = sum (x:xs):movingSum (xs++[y]) ys
+
+movingAverage :: [Double] -> Int -> [Double]
+movingAverage xs windowSize
+ | windowSize < 1 = error "Cannot have non-positive window size."
+ | windowSize > length xs = []
+ | otherwise = map (/ fromIntegral windowSize) movingSums
+ where
+    movingSums = movingSum (take windowSize xs) (drop windowSize xs)
