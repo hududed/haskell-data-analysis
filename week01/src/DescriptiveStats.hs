@@ -79,3 +79,11 @@ movingAverage xs windowSize
  | otherwise = map (/ fromIntegral windowSize) movingSums
  where
     movingSums = movingSum (take windowSize xs) (drop windowSize xs)
+
+rescale :: [Double] -> [Double]
+rescale xs = map (\x -> (x - lead)/diffxs) xs
+  where
+    lead = head xs
+    maxxs = maximum xs
+    minxs = minimum xs
+    diffxs = maxxs - minxs
